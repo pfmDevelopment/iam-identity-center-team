@@ -216,7 +216,7 @@ const start_query_cwlogs = async (event, cwlogsClient) => {
       logGroupName,
       startTime: startEpoch,
       endTime: endEpoch,
-      queryString: `fields eventID, eventName, eventSource, eventTime | filter recipientAccountId = ${escapeCwlogsStringLiteral(accountId)} | filter userIdentity.principalId like ${escapeCwlogsStringLiteral(":" + username)} | filter userIdentity.sessionContext.sessionIssuer.arn like ${escapeCwlogsStringLiteral(role)} | sort @timestamp desc | limit 10000`,
+      queryString: `fields eventID, eventName, eventSource, eventTime | filter recipientAccountId = ${escapeCwlogsStringLiteral(accountId)} | filter tolower(userIdentity.principalId) like ${escapeCwlogsStringLiteral(":" + username)} | filter userIdentity.sessionContext.sessionIssuer.arn like ${escapeCwlogsStringLiteral(role)} | sort @timestamp desc | limit 10000`,
     };
     const command = new CWLogsStartQueryCommand(input);
     const response = await cwlogsClient.send(command);
